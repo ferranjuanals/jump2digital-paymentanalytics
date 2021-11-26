@@ -1,7 +1,6 @@
 package com.paymentanalytics.jump2digital.model.valueobjects;
 
 import com.paymentanalytics.jump2digital.exceptions.InvalidTypeException;
-import com.paymentanalytics.jump2digital.model.entities.Product;
 
 import java.util.Arrays;
 

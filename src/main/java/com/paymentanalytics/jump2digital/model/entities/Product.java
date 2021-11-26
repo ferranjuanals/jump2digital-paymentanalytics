@@ -30,7 +30,7 @@ public class Product {
     @Column(name = "product_type", nullable = false)
     private ProductType productType;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
     @OneToMany(mappedBy = "product")
