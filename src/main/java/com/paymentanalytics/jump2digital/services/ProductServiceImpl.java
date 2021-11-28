@@ -29,19 +29,19 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public Product getProductById(String id) {
-        return productRepository.getById(UUID.fromString(id));
+    public Product getProductById(UUID id) {
+        return productRepository.getById(id);
     }
 
     @Override
-    public ProductDto getProductDtoById(String id) {
-        Product product = productRepository.getById(UUID.fromString(id));
+    public ProductDto getProductDtoById(UUID id) {
+        Product product = productRepository.getById(id);
         return mapDto(product);
     }
 
     @Override
     public ProductDto updateProduct(ProductDto productDto) {
-        Product product = productRepository.getById(UUID.fromString(productDto.getId()));
+        Product product = productRepository.getById(productDto.getId());
         if(productDto.getName() != null) product.setName(productDto.getName());
         if(productDto.getPrice() != null) product.setPrice(productDto.getPrice());
         if(productDto.getProductType() != null) product.setProductType(ProductType.getType(productDto.getProductType()));
@@ -52,14 +52,14 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public void deleteProduct(String id) {
-        Product product = productRepository.getById(UUID.fromString(id));
+    public void deleteProduct(UUID id) {
+        Product product = productRepository.getById(id);
         productRepository.delete(product);
     }
 
     private ProductDto mapDto(Product product) {
         return ProductDto.builder()
-                .id(product.getId().toString())
+                .id(product.getId())
                 .name(product.getName())
                 .price((Double) product.getPrice())
                 .productType(product.getProductType().toString())

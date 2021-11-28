@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/product")
@@ -32,7 +33,7 @@ public class ProductController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.FOUND)
-    public ProductDto getProduct(@RequestBody String id) {
+    public ProductDto getProduct(@RequestBody UUID id) {
         try {
             return productService.getProductDtoById(id);
         } catch (EntityNotFoundException exception) {
@@ -58,7 +59,7 @@ public class ProductController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    public void deleteProduct(@RequestBody String id) {
+    public void deleteProduct(@RequestBody UUID id) {
         try {
             productService.deleteProduct(id);
         } catch (EntityNotFoundException exception) {
