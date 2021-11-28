@@ -11,4 +11,9 @@ public interface IProductService {
 
     Product getProductById(String id);
 
+    ProductDto getProductDtoById(String id);
+
+    ProductDto updateProduct(ProductDto productDto);
+
+    void deleteProduct(String id);
 }
