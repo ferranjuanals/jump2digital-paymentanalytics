@@ -1,12 +1,14 @@
 package com.paymentanalytics.jump2digital.services;
 
 import com.paymentanalytics.jump2digital.dtos.TicketDto;
-import com.paymentanalytics.jump2digital.model.entities.Product;
+import com.paymentanalytics.jump2digital.exceptions.ArgumentNotValidException;
 import com.paymentanalytics.jump2digital.model.entities.Ticket;
 import com.paymentanalytics.jump2digital.model.valueobjects.PaymentType;
 import com.paymentanalytics.jump2digital.repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class TicketServiceImpl implements ITicketService {
@@ -23,6 +25,18 @@ public class TicketServiceImpl implements ITicketService {
         return mapDto(ticket);
     }
 
+    @Override
+    public TicketDto getTicket(String id) {
+        Ticket ticket = ticketRepository.getById(UUID.fromString(id));
+        return mapDto(ticket);
+    }
+
+    @Override
+    public void deleteTicket(String id) {
+        Ticket ticket = ticketRepository.getById(UUID.fromString(id));
+        ticketRepository.delete(ticket);
+    }
+
     private TicketDto mapDto(Ticket ticket) {
         return TicketDto.builder()
                 .id(ticket.getId().toString())
@@ -33,12 +47,17 @@ public class TicketServiceImpl implements ITicketService {
     }
 
     private Ticket mapTicket(TicketDto ticketDto) {
-        Product product = productService.getProductById(ticketDto.getProduct().getId());
-        return Ticket.builder()
-                .product(product)
+        Ticket ticket = Ticket.builder()
+                .product(productService.getProductById(ticketDto.getProduct().getId()))
                 .amount(ticketDto.getAmount())
                 .paymentType(PaymentType.getType(ticketDto.getPaymentType()))
                 .build();
+        validate(ticket);
+        return ticket;
+    }
+
+    private void validate(Ticket ticket) {
+        if(ticket.getAmount().intValue() < 1) throw new ArgumentNotValidException("The ticket amount must be 1 or more.");
     }
 
 }

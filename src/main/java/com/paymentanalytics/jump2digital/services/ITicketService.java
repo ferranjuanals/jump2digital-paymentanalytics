@@ -6,4 +6,7 @@ public interface ITicketService {
 
     TicketDto createTicket(TicketDto ticketDto);
 
+    TicketDto getTicket(String id);
+
+    void deleteTicket(String id);
 }
