@@ -3,17 +3,19 @@ package com.paymentanalytics.jump2digital.services;
 import com.paymentanalytics.jump2digital.dtos.ProductDto;
 import com.paymentanalytics.jump2digital.model.entities.Product;
 
+import java.util.UUID;
+
 public interface IProductService {
 
     ProductDto createProduct(ProductDto productDto);
 
     ProductDto mapProductToDto(Product product);
 
-    Product getProductById(String id);
+    Product getProductById(UUID id);
 
-    ProductDto getProductDtoById(String id);
+    ProductDto getProductDtoById(UUID id);
 
     ProductDto updateProduct(ProductDto productDto);
 
-    void deleteProduct(String id);
+    void deleteProduct(UUID id);
 }

@@ -4,23 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
-public class TicketDto {
+public class TicketDto implements Serializable{
 
-    @NotEmpty
-    private final String id;
-
-    @NotEmpty
+    private final UUID id;
     private final ProductDto product;
-
-    @NotEmpty
     private final Integer amount;
-
     @Pattern(regexp = "^(VISA|MASTERCARD)$")
     private final String paymentType;
 
