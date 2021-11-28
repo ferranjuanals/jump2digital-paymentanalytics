@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
-import java.security.InvalidAlgorithmParameterException;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/ticket")
@@ -35,7 +36,7 @@ public class TicketController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public TicketDto getTicket(@RequestBody String id) {
+    public TicketDto getTicket(@RequestBody UUID id) {
         try {
             return ticketService.getTicket(id);
         } catch (EntityNotFoundException exception) {
@@ -45,11 +46,17 @@ public class TicketController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    public void deleteTicket(@RequestBody String id) {
+    public void deleteTicket(@RequestBody UUID id) {
         try {
             ticketService.deleteTicket(id);
         } catch (EntityNotFoundException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket with ID " + id + " does not exist.");
         }
+    }
+
+    @GetMapping("/analytics")
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Object> getSummary() {
+        return ticketService.getSummary();
     }
 }
